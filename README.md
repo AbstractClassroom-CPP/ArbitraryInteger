@@ -1,0 +1,29 @@
+# ArbitraryInteger
+
+A simple C++11 arbitrary length integer library for teaching.
+
+Signed values use a growing vector of 32-bit unsigned words, with 64-bit
+intermediates for arithmetic. Construction accepts signed native integers and
+decimal strings.
+
+The library favors simple loops and algorithms that are not highly optimized
+so students can follow the implementation.
+
+## Versions
+
+| Version | Added features |
+| --- | --- |
+| `v1.0.0` | Arithmetic, comparisons, assignment, increment, and decrement |
+
+## Build
+
+Requires CMake 3.14 or newer and a C++11 compiler.
+
+```sh
+cmake -S . -B build -DCMAKE_CXX_STANDARD=11
+cmake --build build
+```
+
+Fetch this repository with CMake `FetchContent` and select a version tag from
+the table. Link `ArbitraryInteger::ArbitraryInteger` and include
+`ArbitraryInteger.hpp`.

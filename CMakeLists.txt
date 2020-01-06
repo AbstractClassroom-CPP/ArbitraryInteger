@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.14)
+project(ArbitraryInteger VERSION 1.0.0 LANGUAGES CXX)
+
+add_library(arbitrary_integer src/ArbitraryInteger.cpp)
+add_library(ArbitraryInteger::ArbitraryInteger ALIAS arbitrary_integer)
+target_compile_features(arbitrary_integer PUBLIC cxx_std_11)
+target_include_directories(arbitrary_integer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_target_properties(arbitrary_integer PROPERTIES CXX_EXTENSIONS OFF)
