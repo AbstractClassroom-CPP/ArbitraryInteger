@@ -22,7 +22,11 @@ Requires CMake 3.14 or newer and a C++11 compiler.
 ```sh
 cmake -S . -B build -DCMAKE_CXX_STANDARD=11
 cmake --build build
+cd build
+ctest --output-on-failure
 ```
+
+Tests use GoogleTest 1.10.0. Disable them with `-DBUILD_TESTING=OFF`.
 
 Fetch this repository with CMake `FetchContent` and select a version tag from
 the table. Link `ArbitraryInteger::ArbitraryInteger` and include
