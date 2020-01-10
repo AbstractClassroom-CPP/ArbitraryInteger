@@ -1,0 +1,2 @@
+add_executable(arbitrary_integer_example main.cpp)
+target_link_libraries(arbitrary_integer_example PRIVATE ArbitraryInteger::ArbitraryInteger)
