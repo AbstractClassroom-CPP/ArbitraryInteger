@@ -30,6 +30,10 @@ public:
 	ArbitraryInteger& operator/=(const ArbitraryInteger& other);
 	ArbitraryInteger& operator%=(const ArbitraryInteger& other);
 
+	ArbitraryInteger& operator&=(const ArbitraryInteger& other);
+	ArbitraryInteger& operator^=(const ArbitraryInteger& other);
+	ArbitraryInteger& operator|=(const ArbitraryInteger& other);
+
 	ArbitraryInteger& operator++();
 	ArbitraryInteger operator++(int);
 	ArbitraryInteger& operator--();
@@ -53,6 +57,18 @@ public:
 	}
 	friend ArbitraryInteger operator%(ArbitraryInteger left, const ArbitraryInteger& right) {
 		left %= right;
+		return left;
+	}
+	friend ArbitraryInteger operator&(ArbitraryInteger left, const ArbitraryInteger& right) {
+		left &= right;
+		return left;
+	}
+	friend ArbitraryInteger operator^(ArbitraryInteger left, const ArbitraryInteger& right) {
+		left ^= right;
+		return left;
+	}
+	friend ArbitraryInteger operator|(ArbitraryInteger left, const ArbitraryInteger& right) {
+		left |= right;
 		return left;
 	}
 
@@ -87,6 +103,11 @@ private:
 	static ArbitraryInteger subtractMagnitude(const ArbitraryInteger& left, const ArbitraryInteger& right);
 	static std::pair<ArbitraryInteger, ArbitraryInteger> divideWithRemainder(
 	const ArbitraryInteger& dividend, const ArbitraryInteger& divisor);
+
+	std::vector<std::uint32_t> twosComplement(std::size_t width) const;
+	static void negateWords(std::vector<std::uint32_t>& words);
+	static ArbitraryInteger bitwise(
+	const ArbitraryInteger& left, const ArbitraryInteger& right, char operation);
 };
 
 #endif

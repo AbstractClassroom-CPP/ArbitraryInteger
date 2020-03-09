@@ -14,6 +14,7 @@ so students can follow the implementation.
 | Version | Added features |
 | --- | --- |
 | `v1.0.0` | Arithmetic, comparisons, assignment, increment, and decrement |
+| `v2.0.0` | Bitwise AND, XOR, OR, and compound assignments |
 
 ## Build
 

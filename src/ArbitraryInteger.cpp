@@ -286,6 +286,71 @@ ArbitraryInteger& ArbitraryInteger::operator%=(const ArbitraryInteger& other) {
 	return *this;
 }
 
+void ArbitraryInteger::negateWords(std::vector<std::uint32_t>& words) {
+
+	std::uint64_t carry = 1;
+	for (std::size_t i = 0; i < words.size(); ++i) {
+		const std::uint64_t current = static_cast<std::uint32_t>(~words[i]) + carry;
+		words[i] = static_cast<std::uint32_t>(current);
+		carry = current >> 32;
+	}
+}
+
+std::vector<std::uint32_t> ArbitraryInteger::twosComplement(std::size_t width) const {
+	std::vector<std::uint32_t> words = digits_;
+	words.resize(width, 0);
+	if (negative_) {
+		negateWords(words);
+	}
+	return words;
+}
+
+ArbitraryInteger ArbitraryInteger::bitwise(const ArbitraryInteger& left, const ArbitraryInteger& right, char operation) {
+
+	std::size_t width = left.digits_.size();
+	if (right.digits_.size() > width) {
+		width = right.digits_.size();
+	}
+	width = width + 1;
+	std::vector<std::uint32_t> words = left.twosComplement(width);
+	const std::vector<std::uint32_t> other = right.twosComplement(width);
+	for (std::size_t i = 0; i < width; ++i) {
+		if (operation == '&') {
+			words[i] &= other[i];
+		}
+		else if (operation == '^') {
+			words[i] ^= other[i];
+		}
+		else {
+			words[i] |= other[i];
+		}
+	}
+
+	ArbitraryInteger result;
+	result.negative_ = (words.back() >> 31) != 0;
+	if (result.negative_) {
+		negateWords(words);
+	}
+	result.digits_ = words;
+	result.normalize();
+	return result;
+}
+
+ArbitraryInteger& ArbitraryInteger::operator&=(const ArbitraryInteger& other) {
+	*this = bitwise(*this, other, '&');
+	return *this;
+}
+
+ArbitraryInteger& ArbitraryInteger::operator^=(const ArbitraryInteger& other) {
+	*this = bitwise(*this, other, '^');
+	return *this;
+}
+
+ArbitraryInteger& ArbitraryInteger::operator|=(const ArbitraryInteger& other) {
+	*this = bitwise(*this, other, '|');
+	return *this;
+}
+
 ArbitraryInteger& ArbitraryInteger::operator++() {
 	*this += 1;
 	return *this;
