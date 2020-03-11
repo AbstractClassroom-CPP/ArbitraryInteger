@@ -24,4 +24,13 @@ int main() {
 	count += 10;
 	count--;
 	std::cout << "count = " << count << '\n';
+
+	ArbitraryInteger bits = 12;
+	std::cout << "12 & 10 = " << (bits & 10) << '\n';
+	std::cout << "12 ^ 10 = " << (bits ^ 10) << '\n';
+	std::cout << "12 | 10 = " << (bits | 10) << '\n';
+	bits &= 10;
+	bits |= 3L;
+	bits ^= 5;
+	std::cout << "bits after compound assignments = " << bits << '\n';
 }
