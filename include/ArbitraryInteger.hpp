@@ -34,6 +34,9 @@ public:
 	ArbitraryInteger& operator^=(const ArbitraryInteger& other);
 	ArbitraryInteger& operator|=(const ArbitraryInteger& other);
 
+	ArbitraryInteger& operator<<=(int count);
+	ArbitraryInteger& operator>>=(int count);
+
 	ArbitraryInteger& operator++();
 	ArbitraryInteger operator++(int);
 	ArbitraryInteger& operator--();
@@ -70,6 +73,14 @@ public:
 	friend ArbitraryInteger operator|(ArbitraryInteger left, const ArbitraryInteger& right) {
 		left |= right;
 		return left;
+	}
+	friend ArbitraryInteger operator<<(ArbitraryInteger value, int count) {
+		value <<= count;
+		return value;
+	}
+	friend ArbitraryInteger operator>>(ArbitraryInteger value, int count) {
+		value >>= count;
+		return value;
 	}
 
 	friend bool operator==(const ArbitraryInteger& left, const ArbitraryInteger& right);

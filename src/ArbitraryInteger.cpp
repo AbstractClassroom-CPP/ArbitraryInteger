@@ -351,6 +351,76 @@ ArbitraryInteger& ArbitraryInteger::operator|=(const ArbitraryInteger& other) {
 	return *this;
 }
 
+ArbitraryInteger& ArbitraryInteger::operator<<=(int count) {
+	if (count < 0) {
+		throw std::invalid_argument("A shift count cannot be negative");
+	}
+	if (count == 0 || isZero()) {
+		return *this;
+	}
+	const std::size_t wholeWords = static_cast<std::size_t>(count / 32);
+	const int bits = count % 32;
+	ArbitraryInteger result;
+	result.digits_.assign(digits_.size() + wholeWords + 1, 0);
+	std::uint64_t carry = 0;
+	for (std::size_t i = 0; i < digits_.size(); ++i) {
+		const std::uint64_t current = (static_cast<std::uint64_t>(digits_[i]) << bits) | carry;
+		result.digits_[i + wholeWords] = static_cast<std::uint32_t>(current);
+		carry = current >> 32;
+	}
+	result.digits_[digits_.size() + wholeWords] = static_cast<std::uint32_t>(carry);
+	result.negative_ = negative_;
+	result.normalize();
+	*this = result;
+	return *this;
+}
+
+ArbitraryInteger& ArbitraryInteger::operator>>=(int count) {
+	if (count < 0) {
+		throw std::invalid_argument("A shift count cannot be negative");
+	}
+	if (count == 0 || isZero()) {
+		return *this;
+	}
+	const std::size_t wholeWords = static_cast<std::size_t>(count / 32);
+	const int bits = count % 32;
+	if (wholeWords >= digits_.size()) {
+		if (negative_) {
+			*this = -1;
+		}
+		else {
+			*this = 0;
+		}
+		return *this;
+	}
+
+	bool discarded = false;
+	for (std::size_t i = 0; i < wholeWords; ++i) {
+		if (digits_[i] != 0) {
+			discarded = true;
+		}
+	}
+	ArbitraryInteger result;
+	result.digits_.resize(digits_.size() - wholeWords);
+	const std::uint64_t mask = (static_cast<std::uint64_t>(1) << bits) - 1;
+	std::uint64_t carry = 0;
+	for (std::size_t i = digits_.size(); i > wholeWords; --i) {
+		const std::uint64_t current = (carry << 32) | digits_[i - 1];
+		result.digits_[i - 1 - wholeWords] = static_cast<std::uint32_t>(current >> bits);
+		carry = digits_[i - 1] & mask;
+	}
+	discarded = discarded || carry != 0;
+	result.normalize();
+
+	if (negative_ && discarded) {
+		++result;
+	}
+	result.negative_ = negative_;
+	result.normalize();
+	*this = result;
+	return *this;
+}
+
 ArbitraryInteger& ArbitraryInteger::operator++() {
 	*this += 1;
 	return *this;
