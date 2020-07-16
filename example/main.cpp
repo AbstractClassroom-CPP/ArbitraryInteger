@@ -33,4 +33,11 @@ int main() {
 	bits |= 3L;
 	bits ^= 5;
 	std::cout << "bits after compound assignments = " << bits << '\n';
+
+	ArbitraryInteger shifted = 1;
+	shifted <<= 65;
+	std::cout << "1 << 65 = " << shifted << '\n';
+	shifted >>= 64;
+	std::cout << "then >> 64 = " << shifted << '\n';
+	std::cout << "-3 >> 1 = " << (ArbitraryInteger(-3) >> 1) << '\n';
 }
