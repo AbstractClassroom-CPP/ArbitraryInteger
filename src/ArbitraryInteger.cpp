@@ -113,6 +113,50 @@ bool ArbitraryInteger::isZero() const {
 	return digits_.size() == 1 && digits_[0] == 0;
 }
 
+ArbitraryInteger ArbitraryInteger::power(int exponent) const {
+	if (exponent < 0) {
+		throw std::invalid_argument("An exponent cannot be negative");
+	}
+
+	ArbitraryInteger result = 1;
+	ArbitraryInteger factor = *this;
+	while (exponent > 0) {
+		if (exponent % 2 == 1) {
+			result *= factor;
+		}
+		exponent /= 2;
+		if (exponent > 0) {
+			factor *= factor;
+		}
+	}
+	return result;
+}
+
+ArbitraryInteger ArbitraryInteger::powermod(int exponent, const ArbitraryInteger& modulus) const {
+	if (exponent < 0) {
+		throw std::invalid_argument("An exponent cannot be negative");
+	}
+	if (modulus <= 0) {
+		throw std::invalid_argument("A modulus must be positive");
+	}
+
+	ArbitraryInteger result = ArbitraryInteger(1) % modulus;
+	ArbitraryInteger factor = *this % modulus;
+	if (factor < 0) {
+		factor += modulus;
+	}
+	while (exponent > 0) {
+		if (exponent % 2 == 1) {
+			result = (result * factor) % modulus;
+		}
+		exponent /= 2;
+		if (exponent > 0) {
+			factor = (factor * factor) % modulus;
+		}
+	}
+	return result;
+}
+
 void ArbitraryInteger::normalize() {
 	while (digits_.size() > 1 && digits_.back() == 0) {
 		digits_.pop_back();

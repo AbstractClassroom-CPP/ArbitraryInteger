@@ -40,4 +40,11 @@ int main() {
 	shifted >>= 64;
 	std::cout << "then >> 64 = " << shifted << '\n';
 	std::cout << "-3 >> 1 = " << (ArbitraryInteger(-3) >> 1) << '\n';
+
+	ArbitraryInteger two = 2;
+	std::cout << "2^100 = " << two.power(100) << '\n';
+	ArbitraryInteger four = 4;
+	std::cout << "4^13 mod 497 = " << four.powermod(13, 497) << '\n';
+	ArbitraryInteger modulus("18446744073709551629");
+	std::cout << "a^12345 mod " << modulus << " = " << a.powermod(12345, modulus) << '\n';
 }

@@ -21,6 +21,9 @@ public:
 	std::string toString() const;
 	bool isZero() const;
 
+	ArbitraryInteger power(int exponent) const;
+	ArbitraryInteger powermod(int exponent, const ArbitraryInteger& modulus) const;
+
 	ArbitraryInteger operator+() const;
 	ArbitraryInteger operator-() const;
 

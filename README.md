@@ -17,6 +17,10 @@ so students can follow the implementation.
 | `v2.0.0` | Bitwise AND, XOR, OR, and compound assignments |
 | `v3.0.0` | Left and right shifts |
 | `v3.0.8` | GitHub Actions unit-test workflow |
+| `v4.0.0` | Power and modular power using successive squaring |
+
+Powers require nonnegative exponents. Modular powers accept an `int` or
+`ArbitraryInteger` modulus, which must be positive.
 
 ## Build
 
