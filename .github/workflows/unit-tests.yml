@@ -1,0 +1,26 @@
+name: Unit tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Configure tests
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_CXX_STANDARD=11
+          -DCMAKE_CXX_STANDARD_REQUIRED=ON
+          -DCMAKE_CXX_EXTENSIONS=OFF
+          -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          -DBUILD_TESTING=ON
+          -DARBITRARY_INTEGER_BUILD_EXAMPLE=OFF
+      - name: Build tests
+        run: cmake --build build --target arbitrary_integer_tests --parallel 2
+      - name: Run unit tests
+        run: ctest --test-dir build --output-on-failure

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ArbitraryInteger VERSION 3.0.0 LANGUAGES CXX)
+project(ArbitraryInteger VERSION 3.0.8 LANGUAGES CXX)
 
 add_library(arbitrary_integer src/ArbitraryInteger.cpp)
 add_library(ArbitraryInteger::ArbitraryInteger ALIAS arbitrary_integer)
